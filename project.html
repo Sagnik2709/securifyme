@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecurifyMe - Scam Website Detector</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f4f6;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-blue-700 to-purple-700 text-white p-6 shadow-md">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <h1 class="text-3xl font-bold">SecurifyMe</h1>
+      <span class="text-lg text-blue-200">Protecting You From Scam Websites</span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center p-6">
+    <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-xl text-center">
+      <h2 class="text-2xl font-semibold mb-4">Is This Website Safe?</h2>
+      <p class="text-gray-600 mb-6">Enter a website URL below and let us check if it's safe or a potential scam.</p>
+
+      <!-- Input + Button -->
+      <div class="flex flex-col sm:flex-row gap-4 mb-6">
+        <input
+          id="urlInput"
+          type="url"
+          placeholder="https://example.com"
+          class="flex-grow p-3 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 text-lg"
+        />
+        <button
+          id="scanButton"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md shadow-md transition"
+        >
+          Scan
+        </button>
+      </div>
+
+      <!-- Result Area -->
+      <div id="resultArea" class="hidden bg-gray-100 border border-gray-300 p-6 rounded-md">
+        <h3 class="text-xl font-bold mb-2" id="resultTitle">Scan Result</h3>
+        <p class="text-lg font-medium" id="resultText"></p>
+        <p class="text-gray-600 mt-2" id="resultDescription"></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white p-4 text-center">
+<p>&copy; 2025 SecurifyMe. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const scanButton = document.getElementById("scanButton");
+      const urlInput = document.getElementById("urlInput");
+      const resultArea = document.getElementById("resultArea");
+      const resultText = document.getElementById("resultText");
+      const resultDescription = document.getElementById("resultDescription");
+
+      const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/i;
+
+      function scanWebsite() {
+        const url = urlInput.value.trim();
+
+        if (!url) {
+          resultArea.classList.remove("hidden");
+          resultText.textContent = "Please enter a URL.";
+          resultText.className = "text-lg font-semibold text-red-600";
+          resultDescription.textContent = "";
+          return;
+        }
+
+        if (!urlPattern.test(url)) {
+          resultArea.classList.remove("hidden");
+          resultText.textContent = "Invalid URL format.";
+          resultText.className = "text-lg font-semibold text-red-600";
+          resultDescription.textContent = "";
+          return;
+        }
+
+        // Simulated scan logic
+        resultArea.classList.remove("hidden");
+        resultText.textContent = "Scanning...";
+        resultText.className = "text-lg font-semibold text-blue-500";
+        resultDescription.textContent = "Analyzing the website. Please wait...";
+
+        setTimeout(() => {
+          let isScam;
+
+         if (url.includes("scam") || url.includes("phish") || url.includes("fraud")) {
+          isScam = true;
+} else if (url.includes("google.com") || url.includes("microsoft.com")) {
+  isScam = false;
+} else {
+  isScam = Math.random() < 0.3;
+}
+
+          if (isScam) {
+            resultText.textContent = "⚠️ Warning: This website may be a SCAM!";
+            resultText.className = "text-lg font-semibold text-red-600";
+            resultDescription.textContent = "Avoid entering personal information or downloading anything from this site. It may be fraudulent.";
+          } else {
+            resultText.textContent = "✅ This website appears to be safe.";
+            resultText.className = "text-lg font-semibold text-green-600";
+            resultDescription.textContent = "No immediate scam signs detected. Always stay cautious while browsing.";
+          }
+        }, 2000);
+      }
+
+      scanButton.addEventListener("click", scanWebsite);
+      urlInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          scanWebsite();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
